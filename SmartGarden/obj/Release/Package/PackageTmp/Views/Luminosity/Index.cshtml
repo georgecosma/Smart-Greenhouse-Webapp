@@ -1,0 +1,263 @@
+﻿@using SmartGarden.Models.DbModels
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<LuminosityDataViewModel> luminosityValuesList = (List<LuminosityDataViewModel>)ViewBag.luminosityValuesList;
+}
+
+<div class="block-header">
+    <h2>LUMINOZITATE</h2>
+</div>
+<br />
+
+<div class="row">
+    @*<div class="col-md-4">*@
+    <div class="col-md-offset-4 col-md-4">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" style="width:100%;">
+            <div class="card" style="min-height:320px;">
+                <div class="header bg-orange">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <center><i class="material-icons">wb_sunny</i></center>
+                        </div>
+                        <div class="col-md-11">
+                            <center><div class="text" style="font-size:large">INFORMAȚII LIVE</div></center>
+                        </div>
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="text">Situația în timp real privind luminozitatea.</div>
+                    <hr />
+                    <ul class="dashboard-stat-list">
+                        <li>
+                            <b>LUMINOZITATE<span class="pull-right">VALOARE</span></b>
+                        </li>
+                        <li>
+                            INTERIOARĂ
+                            <span class="pull-right"><b id="luminosityValueDiv">@ViewBag.luminosityValue</b></span>
+                        </li>
+                        @*
+                        <li>
+                            EXTERIOARĂ
+                            <span class="pull-right"><b>28.00</b></span>
+                        </li>
+                            *@
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*
+    <div class="col-md-8">
+        <div class="row clearfix">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>REAL-TIME CHART</h2>
+                        <div class="pull-right">
+                            <div class="switch panel-switch-btn">
+                                <span class="m-r-10 font-12">REAL TIME</span>
+                                <label>OFF<input type="checkbox" id="realtime" checked><span class="lever switch-col-cyan"></span>ON</label>
+                            </div>
+                        </div>
+                        <ul class="header-dropdown m-r--5">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0);">Action</a></li>
+                                    <li><a href="javascript:void(0);">Another action</a></li>
+                                    <li><a href="javascript:void(0);">Something else here</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <div id="real_time_chart" class="flot-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    *@
+</div>
+
+
+
+<div class="row">
+    @*<div class="col-md-6">*@
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        DATE TEMPERATURĂ - INTERIOARĂ
+                        <small>Tabelul conține înregistrări ale temperaturii interioare.</small><br />
+                    </h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;">Data</th>
+                                <th style="text-align:center;">Valoare</th>
+                                <th style="text-align:center;">Situație</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            @foreach (var temp in luminosityValuesList)
+                            {
+                                <tr style="text-align:center;">
+                                    <td>@temp.RegistrationDate</td>
+                                    <td>@temp.Value</td>
+                                    @if (Decimal.Parse(temp.Value) > 700)
+                                    {
+                                        <td><span class="label label-danger">luminozitate ridicată</span></td>
+                                    }
+                                    else if (Decimal.Parse(temp.Value) > 400 && Decimal.Parse(temp.Value) <= 700)
+                                    {
+                                        <td><span class="label label-warning">luminozitate normală</span></td>
+                                    }
+                                    else if (Decimal.Parse(temp.Value) <= 400)
+                                    {
+                                        <td><span class="label label-default">luminozitate scăzută</span></td>
+                                    }
+                                </tr>
+                            }
+                            @*
+                            <tr style="text-align:center;">
+                                <td>12/5/2017</td>
+                                <td>30.00</td>
+                                <td><span class="label label-success">temperatură normală</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>13/5/2017</td>
+                                <td>3800</td>
+                                <td><span class="label label-warning">temperatură ridicată</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>14/5/2017</td>
+                                <td>50.00</td>
+                                <td><span class="label label-danger">temperatură critică</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>12/5/2017</td>
+                                <td>30.00</td>
+                                <td><span class="label label-success">temperatură normală</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>12/5/2017</td>
+                                <td>28.00</td>
+                                <td><span class="label label-success">temperatură normală</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>13/5/2017</td>
+                                <td>40.00</td>
+                                <td><span class="label label-warning">temperatură ridicată</span></td>
+                            </tr>
+                                *@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @*</div>
+    
+    <div class="col-md-6">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        DATE TEMPERATURĂ - EXTERIOARĂ
+                        <small>Tabelul conține înregistrări ale temperaturii exterioare.</small><br />
+                    </h2>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align:center;">Data</th>
+                                <th style="text-align:center;">Valoare</th>
+                                <th style="text-align:center;">Situație</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="text-align:center;">
+                                <td>12/5/2017</td>
+                                <td>30.00</td>
+                                <td><span class="label label-success">temperatură normală</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>13/5/2017</td>
+                                <td>3800</td>
+                                <td><span class="label label-warning">temperatură ridicată</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>14/5/2017</td>
+                                <td>50.00</td>
+                                <td><span class="label label-danger">temperatură critică</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>12/5/2017</td>
+                                <td>30.00</td>
+                                <td><span class="label label-success">temperatură normală</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>12/5/2017</td>
+                                <td>28.00</td>
+                                <td><span class="label label-success">temperatură normală</span></td>
+                            </tr>
+                            <tr style="text-align:center;">
+                                <td>13/5/2017</td>
+                                <td>40.00</td>
+                                <td><span class="label label-warning">temperatură ridicată</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+</div>
+
+<script type="text/javascript">
+
+
+        function sendRequest() {
+            $.ajax({
+                url: '/Luminosity/updateValues',
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    document.getElementById("luminosityValueDiv").innerHTML = response.luminosityValue;
+                    document.getElementById("tableBody").innerHTML = "";
+                    var rows = '';
+
+                    $.each(response.luminosityValuesList, function (index, item) {
+                        rows += '<tr style="text-align:center;"><td>' + item.RegistrationDate + '</td><td>' + item.Value + '</td>';
+                        var _tempVal = parseFloat(item.Value);
+
+                        if (_tempVal > 700) {
+                            rows += '<td><span class="label label-danger">luminozitate ridicată</span></td>';
+                        } else if (_tempVal > 400 && _tempVal <= 700) {
+                            rows += '<td><span class="label label-warning">luminozitate normală</span></td>';
+                        } else if (_tempVal <= 400) {
+                            rows += '<td><span class="label label-default">luminozitate scăzută</span></td>';
+                        }
+
+                        rows += '</tr>';
+                    });
+                    $('#tableBody').html(rows);
+                  },
+                complete: function () {
+                    // Schedule the next request when the current one's complete
+                     // The interval set to 5 seconds
+                }
+            });
+        };
+
+      setInterval(sendRequest, 5000);
+
+</script>

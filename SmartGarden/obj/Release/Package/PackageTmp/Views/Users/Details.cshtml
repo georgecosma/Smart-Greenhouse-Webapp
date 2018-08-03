@@ -1,0 +1,76 @@
+﻿@model SmartGarden.Models.DbModels.User
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        DETALII UTILIZATOR
+                    </div>
+                    <div class="body">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayName("Rol")
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Role.Name)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayName("Nume utilizator")
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.UserName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayName("Prenume")
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.FirstName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayName("Nume")
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.LastName)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayName("Parola")
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Password)
+                            </dd>
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Email)
+                            </dt>
+
+                            <dd>
+                                @Html.DisplayFor(model => model.Email)
+                            </dd>
+
+                        </dl>
+                        <br />
+                        <hr />
+                        <a href="@Url.Action("Edit", "Users", new { id = Model.Id } )" class="btn btn bg-green waves-effect btn-sm">Editare utilizator</a> |
+                        <a href="@Url.Action("Index", "Users", new { id = Model.Id } )" class="btn btn bg-green waves-effect btn-sm">Înapoi la listă</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

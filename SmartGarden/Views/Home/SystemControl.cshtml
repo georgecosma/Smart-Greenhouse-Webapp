@@ -1,0 +1,418 @@
+﻿@model SmartGarden.Models.DbModels.SystemControlViewModel
+@{
+    ViewBag.Title = "SystemControl";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="block-header">
+    <h2>CONTROL SISTEM</h2>
+</div>
+<br />
+
+<div class="row clearfix">
+    <div class="col-md-offset-1 col-md-10">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="card">
+                <div class="header">
+                    <h2>
+                        ACȚIONARE MANUALĂ
+                        <small>Acționarea manuală a modulelor înafara buclei automatizate.</small><br />
+                    </h2>
+                </div>
+                <div class="body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <!-- VENTS -->
+                            <div class="info-box hover-zoom-effect" style="height:auto;">
+                                <div class="icon breadcrumb-bg-teal">
+                                    <i class="material-icons">toys</i>
+                                </div>
+                                <div class="content" style="width:100%;">
+                                    <div class="text">VENTILATOARE</div>
+                                    <div class="text"><small>Ciclu ventilare momentan: '@Model.FansInterval' min.</small></div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <center><div class="btn btn-default waves-effect" onclick="toggleFans()" id="fansStartButton">START</div></center>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <center>
+                                                <div class="text">
+                                                   <span style="color:green; font-size:larger;" id="fansON">ON</span>
+                                                   <span style="color:red; font-size:larger;" id="fansOFF">OFF</span>
+                                                </div>
+                                             <!-- starea ON / OFF -->
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- VENTILATION SLOT -->
+                            <div class="info-box hover-zoom-effect" style="height:auto;">
+                                <div class="icon bg-blue-grey">
+                                    <i class="material-icons">aspect_ratio</i>
+                                </div>
+                                <div class="content" style="width:100%;">
+                                    <div class="text">TRAPĂ AERISIRE</div>
+                                    <div class="text"><small>Ciclu trapă ridicată momentan: '@Model.AirVentInterval' min.</small></div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <center><div class="btn btn-default waves-effect" onclick="toggleAirVent()" id="airVentStartButton">START</div></center>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <center>
+                                                <div class="text">
+                                                    <span style="color:green; font-size:larger;" id="airVentON">ON</span>
+                                                    <span style="color:red; font-size:larger;" id="airVentOFF">OFF</span>
+                                                </div> <!-- starea ON / OFF -->
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <!-- IRRIGATION SYSTEM -->
+                            <div class="info-box hover-zoom-effect" style="height:auto;">
+                                <div class="icon bg-blue">
+                                    <center><i class="fa fa-tint fa-2x" aria-hidden="true"></i></center>
+                                </div>
+                                <div class="content" style="width:100%;">
+                                    <div class="text">SISTEM IRIGAȚIE</div>
+                                    <div class="text"><small>Ciclu irigare momentan: '@Model.HygroInterval' min.</small></div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <center><div class="btn btn-default waves-effect" onclick="toggleHygros()" id="hygrosStartButton">START</div></center>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <center>
+                                                <div class="text">
+                                                        <span style="color:green; font-size:larger;" id="hygrosON">ON</span>
+                                                        <span style="color:red; font-size:larger;" id="hygrosOFF">OFF</span>
+                                                </div> <!-- starea ON / OFF -->
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form method="post">
+    <div class="row clearfix">
+        <div class="col-md-offset-1 col-md-10">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>
+                                    SETĂRI CICLURI DE ACȚIONARE
+                                </h2>
+                                <div class="text"><small>Setarea intervalelor temporale de acționare a modulelor.</small></div>
+                            </div>
+                            <div class="body">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#ciclu_vent" data-toggle="tab">
+                                            <i class="material-icons">toys</i> VENTILATOARE
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#ciclu_trapa" data-toggle="tab">
+                                            <i class="material-icons">aspect_ratio</i> TRAPĂ AERISIRE
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#ciclu_irig" data-toggle="tab">
+                                            <i class="fa fa-tint fa-2x" aria-hidden="true"></i> SISTEM IRIGAȚIE
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="ciclu_vent">
+                                        <b>Ciclu ventilare</b>
+                                        <p>
+                                            Momentan, un ciclu de ventilare durează '@Model.FansInterval' minute.
+                                        </p>
+                                        <br />
+                                        
+                                            <div class="form-group">
+                                                <label class="form-label">Modificare valoare:</label>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(x => x.FansInterval, new { htmlAttributes = new { @class = "form-control" } })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <center><input type="submit" class="btn bg-green waves-effect" value="MODIFICARE" /></center>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <center><div class="btn btn-default waves-effect" onclick="fansIntervalImplicit()">VAL. IMPLICITĂ</div></center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="ciclu_trapa">
+                                        <b>Ciclu menținere trapă ridicată</b>
+                                        <p>
+                                            Momentan, trapa rămâne ridicată timp de '@Model.AirVentInterval' minute.
+                                        </p>
+                                        <br />
+                                        
+                                            <div class="form-group">
+                                                <label class="form-label">Modificare valoare:</label>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(x => x.AirVentInterval, new { htmlAttributes = new { @class = "form-control" } })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <center><input type="submit" class="btn bg-green waves-effect" value="MODIFICARE" /></center>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <center><div class="btn btn-default waves-effect" onclick="airVentIntervalImplicit()">VAL. IMPLICITĂ</div></center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="ciclu_irig">
+                                        <b>Ciclu irigație</b>
+                                        <p>
+                                            Momentan, un ciclu de irigație durează '@Model.HygroInterval' minute.
+                                        </p>
+                                        <br />
+                                        
+                                            <div class="form-group">
+                                                <label class="form-label">Modificare valoare:</label>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(x => x.HygroInterval, new { htmlAttributes = new { @class = "form-control" } })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <center><input type="submit" class="btn bg-green waves-effect" value="MODIFICARE" /></center>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <center><div class="btn btn-default waves-effect" onclick="hygroIntervalImplicit()">VAL. IMPLICITĂ</div></center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card">
+                            <div class="header">
+                                <h2>
+                                    SETĂRI PARAMETRII PEDOCLIMATICI
+                                </h2>
+                                <div class="text"><small>Setarea limitelor de declanșare a modulelor.</small></div>
+                            </div>
+                            <div class="body">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active">
+                                        <a href="#param_vent" data-toggle="tab">
+                                            <i class="material-icons">toys</i> SISTEM VENTILARE ȘI AERISIRE <i class="material-icons">aspect_ratio</i>
+                                        </a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#param_irig" data-toggle="tab">
+                                            <i class="fa fa-tint fa-2x" aria-hidden="true"></i> SISTEM IRIGAȚIE
+                                        </a>
+                                    </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="param_vent">
+                                        <b>Prag declanșare ventilatoare</b>
+                                        <p>
+                                            Momentan, ventilatoarele pornesc la depășirea pragului de '@Model.TemperatureLimit' de grade.
+                                        </p>
+                                        <br />
+                                        
+                                            <div class="form-group">
+                                                <label class="form-label">Modificare valoare:</label>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(x => x.TemperatureLimit, new { htmlAttributes = new { @class = "form-control" } })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <center><input type="submit" class="btn bg-green waves-effect" value="MODIFICARE" /></center>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <center><div class="btn btn-default waves-effect" onclick="temperatureLimitImplicit()">VAL. IMPLICITĂ</div></center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade" id="param_irig">
+                                        <b>Prag declanșare sistem de irigație</b>
+                                        <p>
+                                            Momentan, sistemul de irigație acționeză când umiditatea solului scade sub @Model.SoilMoistureLimit %.
+                                        </p>
+                                        <br />
+                                        
+                                            <div class="form-group">
+                                                <label class="form-label">Modificare valoare:</label>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(x => x.SoilMoistureLimit, new { htmlAttributes = new { @class = "form-control" } })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <center><input type="submit" class="btn bg-green waves-effect" value="MODIFICARE" /></center>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                        <center><div class="btn btn-default waves-effect" onclick="soilMoistureLimitImplicit()">VAL. IMPLICITĂ</div></center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+
+    var _fansState = '@ViewBag.manualFansState';
+    if (_fansState == 'True') {
+        document.getElementById("fansOFF").style.display = 'none';
+        document.getElementById("fansON").style.display = 'block';
+        document.getElementById("fansStartButton").innerText = "STOP";
+    } else {
+        document.getElementById("fansOFF").style.display = 'block';
+        document.getElementById("fansON").style.display = 'none';
+        document.getElementById("fansStartButton").innerText = "START";
+    }
+
+    var _airVentState = '@ViewBag.manualAirVentState';
+    if (_airVentState == 'True') {
+        document.getElementById("airVentOFF").style.display = 'none';
+        document.getElementById("airVentON").style.display = 'block';
+        document.getElementById("airVentStartButton").innerText = "STOP";
+    } else {
+        document.getElementById("airVentOFF").style.display = 'block';
+        document.getElementById("airVentON").style.display = 'none';
+        document.getElementById("airVentStartButton").innerText = "START";
+    }
+
+    var _hygrosState = '@ViewBag.manualHygrosState';
+    if (_hygrosState == 'True') {
+        document.getElementById("hygrosOFF").style.display = 'none';
+        document.getElementById("hygrosON").style.display = 'block';
+        document.getElementById("hygrosStartButton").innerText = "STOP";
+    } else {
+        document.getElementById("hygrosOFF").style.display = 'block';
+        document.getElementById("hygrosON").style.display = 'none';
+
+        document.getElementById("hygrosStartButton").innerText = "START";
+    }
+
+
+    function toggleFans() {
+        $.ajax({
+            url: '/Home/toggleFans',
+            type: 'POST',
+            success: function (result) {
+
+                if (result == true) {
+                    document.getElementById("fansOFF").style.display = 'none';
+                    document.getElementById("fansON").style.display = 'block';
+                    document.getElementById("fansStartButton").innerText = "STOP";
+                } else {
+                    document.getElementById("fansOFF").style.display = 'block';
+                    document.getElementById("fansON").style.display = 'none';
+                    document.getElementById("fansStartButton").innerText = "START";
+                }
+            }
+        });
+    }
+
+    function toggleAirVent() {
+        $.ajax({
+            url: '/Home/toggleAirVent',
+            type: 'POST',
+            success: function (result) {
+
+                if (result == true) {
+                    document.getElementById("airVentOFF").style.display = 'none';
+                    document.getElementById("airVentON").style.display = 'block';
+                    document.getElementById("airVentStartButton").innerText = "STOP";
+                } else {
+                    document.getElementById("airVentOFF").style.display = 'block';
+                    document.getElementById("airVentON").style.display = 'none';
+                    document.getElementById("airVentStartButton").innerText = "START";
+                }
+            }
+        });
+    }
+
+    function toggleHygros() {
+        $.ajax({
+            url: '/Home/toggleHygros',
+            type: 'POST',
+            success: function (result) {
+
+                if (result == true) {
+                    document.getElementById("hygrosOFF").style.display = 'none';
+                    document.getElementById("hygrosON").style.display = 'block';
+                    document.getElementById("hygrosStartButton").innerText = "STOP";
+                } else {
+                    document.getElementById("hygrosOFF").style.display = 'block';
+                    document.getElementById("hygrosON").style.display = 'none';
+
+                    document.getElementById("hygrosStartButton").innerText = "START";
+                }
+            }
+        });
+    }
+
+    function fansIntervalImplicit() {
+        document.getElementById("FansInterval").value = 5;
+    }
+    function airVentIntervalImplicit() {
+        document.getElementById("AirVentInterval").value = 5;
+    }
+    function hygroIntervalImplicit() {
+        document.getElementById("HygroInterval").value = 3;
+    }
+    function temperatureLimitImplicit() {
+        document.getElementById("TemperatureLimit").value = 36;
+    }
+    function soilMoistureLimitImplicit() {
+        document.getElementById("SoilMoistureLimit").value = 40;
+    }
+    
+</script>

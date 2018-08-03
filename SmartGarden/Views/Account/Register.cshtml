@@ -1,0 +1,196 @@
+﻿@model SmartGarden.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Adăugare utilizator";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>ADĂUGARE UTILIZATOR</h2>
+                            <small>Introduceți datele pentru a adăuga un nou utilizator</small>
+                        </div>
+                        <div class="body" style="padding-left:5%;">
+                            <form>
+
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+                                <div class="form-group">
+                                    <label class="form-label">Nume utilizator</label>
+                                    <div class="form-line">
+                                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Prenume</label>
+                                    <div class="form-line">
+                                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Nume</label>
+                                    <div class="form-line">
+                                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <div class="form-line">
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <!--<label asp-for="RoleId" class="col-md-2 control-label"></label>-->
+                                    @Html.Label("Rol") <br />
+                                    <div class="form-line">
+                                        <!--<select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>-->
+                                        @Html.DropDownList("RoleId", new List<SelectListItem>(ViewBag.RoleId), new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Parolă</label>
+                                    <div class="form-line">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Confirmare parolă</label>
+                                    <div class="form-line">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Adăugare" class="btn btn bg-green waves-effect" /> |
+                                        <a href="@Url.Action("Index", "Users")" class="btn btn bg-green waves-effect">Înapoi la listă</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          }
+     </div>
+</div>
+
+
+
+
+
+                @*
+
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-6">
+                            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="row clearfix">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="card">
+                                            <div class="header">
+                                                <h2>ADĂUGARE UTILIZATOR</h2>
+                                                <small>Introduceți datele pentru a adăuga un nou utilizator</small>
+                                                <ul class="header-dropdown m-r--5">
+                                                    <li class="dropdown">
+                                                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="material-icons">more_vert</i>
+                                                        </a>
+                                                        <ul class="dropdown-menu pull-right">
+                                                            <li><a href="javascript:void(0);">Action</a></li>
+                                                            <li><a href="javascript:void(0);">Another action</a></li>
+                                                            <li><a href="javascript:void(0);">Something else here</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="body">
+                                                <form>
+                                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                    @Html.HiddenFor(model => model.Id)
+
+                                                    <div class="form-group">
+                                                        <label class="form-label">Nume utilizator</label>
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="form-label">Prenume</label>
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Nume</label>
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Parolă</label>
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Confirmare Parolă</label>
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="form-label">Email</label>
+                                                        <div class="form-line">
+                                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                <!--<label asp-for="RoleId" class="col-md-2 control-label"></label>-->
+                                @Html.Label("Rol") <br />
+                                <!--<select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>-->
+                                @Html.DropDownList("RoleId", new List<SelectListItem>(ViewBag.RoleId), new { @class = "form-control" })
+
+                            </div>
+                                                    <br />
+                                                    <div class="form-group">
+                                                        <div class="col-md-offset-2 col-md-10">
+                                                            <input type="submit" value="Adăugare" class="btn btn bg-green waves-effect" /> |
+                                                            <a href="@Url.Action("Index", "Users", new { id = Model.Id } )" class="btn btn bg-green waves-effect">Înapoi la listă</a>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+
+                *@
+
+
